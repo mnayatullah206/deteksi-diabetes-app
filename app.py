@@ -8,7 +8,15 @@ Cara jalankan lokal:
 """
 import streamlit as st
 import numpy as np
-import pickle
+import joblib
+...
+@st.cache_resource
+def load_model():
+    ...
+try:
+    model, scaler = load_model()
+    model_loaded = True
+except ...
 
 # ── Konfigurasi halaman ──────────────────────────────────────────
 st.set_page_config(
