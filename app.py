@@ -1,15 +1,7 @@
-"""
-app.py
-Web App Streamlit - Deteksi Dini Diabetes
-UAS Kecerdasan Buatan
-
-Cara jalankan lokal:
-    streamlit run app.py
-"""
 import streamlit as st
 import numpy as np
-import joblib
-
+import pickle
+import os
 
 # ── Konfigurasi halaman ──────────────────────────────────────────
 st.set_page_config(
@@ -26,13 +18,15 @@ def load_model():
     scaler = data['scaler']
     return model, scaler
 
+model_loaded = False
+load_error = None
+
 try:
     model, scaler = load_model()
     model_loaded = True
 except Exception as e:
-    model_loaded = False
-    st.session_state["load_error"] = str(e)
-    
+    load_error = f"{type(e).__name__}: {e}"
+
 # ── Header ────────────────────────────────────────────────────────
 st.title("🩺 Deteksi Dini Diabetes")
 st.markdown("""
@@ -44,13 +38,12 @@ berdasarkan data klinis pasien.
 """)
 
 if not model_loaded:
-    st.error(
-        "⚠️ Model belum ditemukan. Pastikan file `outputs/best_model.pkl` dan "
-        "`outputs/preprocessed_data.pkl` sudah ada di repository (hasil training dari "
-        "notebook Colab)."
-    )
+    st.error("⚠️ Model gagal dimuat.")
+    st.write("**File yang terdeteksi di folder ini:**")
+    st.code("\n".join(os.listdir(".")))
+    st.write("**Detail error:**")
+    st.code(load_error)
     st.stop()
-
 st.divider()
 
 # ── Form input ────────────────────────────────────────────────────
