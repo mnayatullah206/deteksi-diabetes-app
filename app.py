@@ -31,15 +31,7 @@ try:
 except Exception as e:
     model_loaded = False
     st.session_state["load_error"] = str(e)
-    if not model_loaded:
-    st.error(
-        "⚠️ Model belum ditemukan. Pastikan file `best_model.pkl` dan "
-        "`preprocessed_data.pkl` sudah ada di repository."
-    )
-    if "load_error" in st.session_state:
-        st.code(st.session_state["load_error"])  # tampilkan detail error aslinya
-    st.stop()
-
+    
 # ── Header ────────────────────────────────────────────────────────
 st.title("🩺 Deteksi Dini Diabetes")
 st.markdown("""
