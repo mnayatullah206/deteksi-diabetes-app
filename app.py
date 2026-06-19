@@ -20,8 +20,8 @@ st.set_page_config(
 # ── Load model & scaler (cached supaya tidak reload tiap interaksi) ─
 @st.cache_resource
 def load_model():
-    model = joblib.load('outputs/best_model.pkl')
-    data = joblib.load('outputs/preprocessed_data.pkl')
+    model = pickle.load(open("best_model.pkl", "rb"))
+    data = pickle.load(open("preprocessed_data.pkl", "rb"))
     scaler = data['scaler']
     return model, scaler
 
