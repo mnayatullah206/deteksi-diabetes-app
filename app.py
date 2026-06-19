@@ -8,7 +8,7 @@ Cara jalankan lokal:
 """
 import streamlit as st
 import numpy as np
-import joblib
+import pickle
 
 # ── Konfigurasi halaman ──────────────────────────────────────────
 st.set_page_config(
@@ -28,8 +28,9 @@ def load_model():
 try:
     model, scaler = load_model()
     model_loaded = True
-except FileNotFoundError:
+except Exception as e:
     model_loaded = False
+    st.session_state["load_error"] = str(e)
 
 # ── Header ────────────────────────────────────────────────────────
 st.title("🩺 Deteksi Dini Diabetes")
